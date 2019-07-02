@@ -13,3 +13,14 @@ Conreality Plugins
 |
 
 https://wiki.conreality.org/Plugins
+
+----
+
+See Also
+========
+
+- `Conreality Widgets
+  <https://github.com/conreality/conreality-widgets>`__
+
+- `Conreality Developer App
+  <https://github.com/conreality/conreality-developer>`__
