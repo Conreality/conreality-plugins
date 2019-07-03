@@ -1,4 +1,4 @@
-package app.conreality.plugins.conreality_headset_example;
+package app.conreality.plugins.headset.example;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

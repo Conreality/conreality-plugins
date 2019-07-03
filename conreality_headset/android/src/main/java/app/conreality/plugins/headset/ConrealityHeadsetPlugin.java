@@ -1,4 +1,4 @@
-package app.conreality.plugins.conreality_headset;
+package app.conreality.plugins.headset;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;

@@ -1,4 +1,4 @@
-group 'app.conreality.plugins.conreality_headset'
+group 'app.conreality.plugins.headset'
 version '1.0-SNAPSHOT'
 
 buildscript {
