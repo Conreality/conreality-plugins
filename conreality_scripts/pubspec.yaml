@@ -1,8 +1,8 @@
 # See: https://dart.dev/tools/pub/pubspec
 name: conreality_scripts
-version: 0.0.1
+version: 1.0.0+20190704.1
 description: >-
-  The bundled script repository for Conreality games.
+  Precompiled scripts repository for Conreality live-action games.
 author: Conreality.org <conreality@googlegroups.com>
 homepage: https://github.com/conreality/conreality-plugins/tree/master/conreality_scripts
 
@@ -20,6 +20,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - scripts/VERSION
     - scripts/console/
     - scripts/developer/
     - scripts/player/
