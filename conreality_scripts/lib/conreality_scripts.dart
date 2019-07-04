@@ -14,5 +14,5 @@ abstract class ConrealityScripts {
   ConrealityScripts._();
 
   /// The current plugin version string.
-  static String get version => "1.0.0+20190704.1";
+  static String get version => "1.0.1+20190704.1";
 }
