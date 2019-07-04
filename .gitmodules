@@ -1,0 +1,3 @@
+[submodule "conreality_scripts/scripts"]
+	path = conreality_scripts/scripts
+	url = https://github.com/conreality/conreality-scripts.git
