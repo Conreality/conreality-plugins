@@ -19,3 +19,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  assets:
+    - scripts/console/
+    - scripts/developer/
+    - scripts/player/
