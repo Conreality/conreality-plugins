@@ -1,14 +1,40 @@
-# conreality_headset
+conreality_headset
+==================
 
-A new flutter plugin project.
+[![Project license](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](https://unlicense.org)
+[![Pub package](https://img.shields.io/pub/v/conreality_headset.svg)](https://pub.dev/packages/conreality_headset)
+[![Dartdoc reference](https://img.shields.io/badge/dartdoc-reference-blue.svg)](https://pub.dev/documentation/conreality_headset/latest/)
 
-## Getting Started
+Headset audio and text-to-speech support for Conreality live-action games.
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Compatibility
+-------------
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Android and iOS both.
+
+Examples
+--------
+
+### Importing the package
+
+```dart
+import 'package:conreality_headset/conreality_headset.dart';
+```
+
+Installation
+------------
+
+### `pubspec.yaml` using Pub
+
+    dependencies:
+      # See: https://pub.dev/packages/conreality_headset
+      conreality_headset: ^0.0.1
+
+### `pubspec.yaml` using Git
+
+    dependencies:
+      # See: https://github.com/conreality/conreality-plugins/tree/master/conreality_headset
+      conreality_headset:
+        git:
+          url: https://github.com/conreality/conreality-plugins.git
+          path: conreality_headset
