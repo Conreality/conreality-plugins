@@ -1,0 +1,24 @@
+# See: https://dart.dev/tools/pub/pubspec
+name: conreality_scripts_example
+description: Demonstrates how to use the conreality_scripts plugin.
+publish_to: none
+
+environment:
+  sdk: ">=2.2.0 <3.0.0"
+  flutter: ">=1.5.4-hotfix.2 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  conreality_scripts:
+    path: ../
+
+flutter:
+  uses-material-design: true
