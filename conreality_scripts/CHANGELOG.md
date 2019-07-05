@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Script#summary` getter
 - `Script#author` getter
 
-### Added
 ## 1.0.0+20190704.1 - 2019-07-04
 ### Added
 - `ConrealityScripts.version` getter
