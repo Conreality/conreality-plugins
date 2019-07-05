@@ -19,9 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Script#author` getter
 
 ## 1.0.0+20190704.1 - 2019-07-04
-### Changed
-- Imported the scripts at revision [6a0cc4b](https://github.com/conreality/conreality-scripts/commit/6a0cc4be555ba84f3ac7d74cae8316b9ce7111d3)
 ### Added
+- Imported the scripts at revision [6a0cc4b](https://github.com/conreality/conreality-scripts/commit/6a0cc4be555ba84f3ac7d74cae8316b9ce7111d3)
 - `ConrealityScripts.version` getter
 - `Script` class
 - `Script#path` getter
