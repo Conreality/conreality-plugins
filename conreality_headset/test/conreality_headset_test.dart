@@ -1,9 +1,11 @@
+/* This is free and unencumbered software released into the public domain. */
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:conreality_headset/conreality_headset.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('conreality_headset');
+  const MethodChannel channel = MethodChannel('app.conreality.plugins.headset');
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
