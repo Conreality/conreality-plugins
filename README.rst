@@ -16,6 +16,63 @@ https://wiki.conreality.org/Plugins
 
 ----
 
+Overview
+========
+
+.. list-table::
+   :widths: 20 60 20
+   :header-rows: 1
+
+   * - Widget
+     - Summary
+     - Status
+
+   * - `conreality_headset <#conreality_headset>`__
+     - Headset support.
+     - Planning
+
+   * - `conreality_scripts <#conreality_scripts>`__
+     - Precompiled scripts repository.
+     - Stable
+
+----
+
+conreality_headset
+==================
+
+::
+
+   dependencies:
+     # See: https://github.com/conreality/conreality-plugins/tree/master/conreality_headset
+     conreality_headset:
+       git:
+         url: https://github.com/conreality/conreality-plugins.git
+         path: conreality_headset
+
+::
+
+   import 'package:conreality_headset/conreality_headset.dart';
+
+----
+
+conreality_scripts
+==================
+
+::
+
+   dependencies:
+     # See: https://github.com/conreality/conreality-plugins/tree/master/conreality_scripts
+     conreality_scripts:
+       git:
+         url: https://github.com/conreality/conreality-plugins.git
+         path: conreality_scripts
+
+::
+
+   import 'package:conreality_scripts/conreality_scripts.dart';
+
+----
+
 See Also
 ========
 
