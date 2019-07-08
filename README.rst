@@ -28,8 +28,12 @@ Overview
      - Status
 
    * - `conreality_headset <#conreality_headset>`__
-     - Headset support.
-     - Planning
+     - Headset audio and text-to-speech support.
+     - Development
+
+   * - `conreality_pulse <#conreality_pulse>`__
+     - Player heart-rate monitoring support.
+     - Development
 
    * - `conreality_scripts <#conreality_scripts>`__
      - Precompiled scripts repository.
@@ -52,6 +56,24 @@ conreality_headset
 ::
 
    import 'package:conreality_headset/conreality_headset.dart';
+
+----
+
+conreality_pulse
+================
+
+::
+
+   dependencies:
+     # See: https://github.com/conreality/conreality-plugins/tree/master/conreality_pulse
+     conreality_pulse:
+       git:
+         url: https://github.com/conreality/conreality-plugins.git
+         path: conreality_pulse
+
+::
+
+   import 'package:conreality_pulse/conreality_pulse.dart';
 
 ----
 
