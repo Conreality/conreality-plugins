@@ -1,0 +1,24 @@
+# See: https://dart.dev/tools/pub/pubspec
+name: conreality_pulse
+version: 0.0.1
+description: >-
+  Player heart-rate monitoring support for Conreality live-action games.
+author: Conreality Team <conreality@googlegroups.com>
+homepage: https://github.com/conreality/conreality-plugins/tree/master/conreality_pulse
+
+environment:
+  sdk: ">=2.2.0 <3.0.0"
+  flutter: ">=1.5.4-hotfix.2 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    androidPackage: app.conreality.plugins.pulse
+    pluginClass: ConrealityPulsePlugin
