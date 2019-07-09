@@ -39,7 +39,8 @@ public class ConrealityPulsePlugin implements MethodCallHandler {
         final int channelKey = this.channels.size() + 1;
         final String channelName = String.format("%s/%d", CHANNEL, channelKey);
         final EventChannel channel = new EventChannel(this.registrar.messenger(), channelName);
-        channel.setStreamHandler(new PulseEventStream(this.registrar.context()));
+        final EventChannel.StreamHandler handler = new RandomPulseStream(this.registrar.context()); // TODO
+        channel.setStreamHandler(handler);
         this.channels.put(channelKey, channel);
         result.success(channelName);
         break;
