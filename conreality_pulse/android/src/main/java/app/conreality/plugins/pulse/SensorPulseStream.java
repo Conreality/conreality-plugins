@@ -12,7 +12,7 @@ import io.flutter.plugin.common.EventChannel;
 
 /** SensorPulseStream */
 class SensorPulseStream implements EventChannel.StreamHandler {
-  private static final String TAG = "Conreality/SensorPulseStream";
+  private static final String TAG = "ConrealityPulse";
 
   private final SensorManager sensorManager;
   private final Sensor sensor;

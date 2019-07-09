@@ -9,7 +9,7 @@ import io.flutter.plugin.common.EventChannel;
 
 /** RandomPulseStream */
 class RandomPulseStream implements EventChannel.StreamHandler {
-  private static final String TAG = "Conreality/RandomPulseStream";
+  private static final String TAG = "ConrealityPulse";
 
   private final Handler handler = new Handler();
   private final Runnable runnable = new Runnable() {

@@ -31,6 +31,16 @@ stream.listen((PulseEvent event) {
 });
 ```
 
+Features
+--------
+
+### Supported Devices
+
+- [Polar H10](https://www.polar.com/en/products/accessories/H10_heart_rate_sensor)
+  heart-rate monitor chest strap
+- [Polar OH1](https://www.polar.com/en/products/accessories/oh1-optical-heart-rate-sensor)
+  heart-rate sensor armband
+
 Installation
 ------------
 
