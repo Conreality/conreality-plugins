@@ -10,7 +10,7 @@ Player heart-rate monitoring support for Conreality live-action games.
 Compatibility
 -------------
 
-Android and iOS both.
+Android only, at present. (iOS support is planned.)
 
 Examples
 --------
@@ -19,6 +19,16 @@ Examples
 
 ```dart
 import 'package:conreality_pulse/conreality_pulse.dart';
+```
+
+### Subscribing to heart-rate updates
+
+```dart
+Stream<PulseEvent> stream = await Pulse.subscribe();
+
+stream.listen((PulseEvent event) {
+  print("Your current heart rate is: ${event.value}");
+});
 ```
 
 Installation

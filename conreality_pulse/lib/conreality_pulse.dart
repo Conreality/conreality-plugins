@@ -1,11 +1,13 @@
 /* This is free and unencumbered software released into the public domain. */
 
 /// Player heart-rate monitoring support for Conreality live-action games.
+///
+/// {@canonicalFor pulse.Pulse}
+/// {@canonicalFor pulse.PulseEvent}
 library conreality_pulse;
 
-import 'dart:async';
-
-import 'package:flutter/services.dart';
+export 'src/pulse.dart' show Pulse;
+export 'src/pulse_event.dart' show PulseEvent;
 
 /// The `conreality_pulse` plugin.
 abstract class ConrealityPulse {
@@ -13,11 +15,4 @@ abstract class ConrealityPulse {
 
   /// The current plugin version string.
   static String get version => "0.0.1";
-
-  static const MethodChannel _channel =
-      const MethodChannel('app.conreality.plugins.pulse');
-
-  static Future<String> get platformVersion {
-    return _channel.invokeMethod('getPlatformVersion');
-  }
 }
