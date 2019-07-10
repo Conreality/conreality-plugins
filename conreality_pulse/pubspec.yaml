@@ -1,6 +1,6 @@
 # See: https://dart.dev/tools/pub/pubspec
 name: conreality_pulse
-version: 0.0.1
+version: 0.1.0
 description: >-
   Player heart-rate monitoring support for Conreality live-action games.
 author: Conreality Team <conreality@googlegroups.com>

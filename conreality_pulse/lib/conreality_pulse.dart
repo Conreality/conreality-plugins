@@ -14,5 +14,5 @@ abstract class ConrealityPulse {
   ConrealityPulse._();
 
   /// The current plugin version string.
-  static String get version => "0.0.1";
+  static String get version => "0.1.0";
 }

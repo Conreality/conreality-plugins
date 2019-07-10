@@ -33,7 +33,7 @@ Overview
 
    * - `conreality_pulse <#conreality_pulse>`__
      - Player heart-rate monitoring support.
-     - Development
+     - Usable
 
    * - `conreality_scripts <#conreality_scripts>`__
      - Precompiled scripts repository.

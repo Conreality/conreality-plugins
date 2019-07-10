@@ -48,7 +48,7 @@ Installation
 
     dependencies:
       # See: https://pub.dev/packages/conreality_pulse
-      conreality_pulse: ^0.0.1
+      conreality_pulse: ^0.1.0
 
 ### `pubspec.yaml` using Git
 

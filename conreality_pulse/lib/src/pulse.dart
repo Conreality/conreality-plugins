@@ -8,17 +8,19 @@ import 'pulse_event.dart' show PulseEvent;
 
 const MethodChannel _channel = MethodChannel('app.conreality.plugins.pulse');
 
-/// TODO
+/// Heart-rate measurement interface.
 abstract class Pulse {
   Pulse._();
 
   /// TODO
   static Future<bool> get isAvailable async => false; // TODO
 
-  /// TODO
+  /// Subscribes to heart-rate measurement events.
   static Future<Stream<PulseEvent>> subscribe() async {
     final EventChannel events = await _openEventChannel();
-    return events.receiveBroadcastStream().map((dynamic value) => PulseEvent(value: value as int));
+    return events
+        .receiveBroadcastStream()
+        .map((dynamic value) => PulseEvent(value: value as int));
   }
 
   static Future<EventChannel> _openEventChannel() async {
