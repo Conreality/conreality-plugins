@@ -10,7 +10,7 @@ Headset audio and text-to-speech support for Conreality live-action games.
 Compatibility
 -------------
 
-Android and iOS both.
+Android only, at present. (iOS support is planned.)
 
 Examples
 --------
@@ -21,6 +21,16 @@ Examples
 import 'package:conreality_headset/conreality_headset.dart';
 ```
 
+### Subscribing to headset events
+
+```dart
+Stream<HeadsetEvent> stream = await Headset.subscribe();
+
+stream.listen((HeadsetEvent event) {
+  print(event);
+});
+```
+
 Installation
 ------------
 
@@ -28,7 +38,7 @@ Installation
 
     dependencies:
       # See: https://pub.dev/packages/conreality_headset
-      conreality_headset: ^0.0.1
+      conreality_headset: ^0.1.0
 
 ### `pubspec.yaml` using Git
 

@@ -29,7 +29,7 @@ Overview
 
    * - `conreality_headset <#conreality_headset>`__
      - Headset audio and text-to-speech support.
-     - Development
+     - Usable
 
    * - `conreality_pulse <#conreality_pulse>`__
      - Player heart-rate monitoring support.

@@ -1,16 +1,14 @@
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
+# See: https://guides.cocoapods.org/syntax/podspec.html
 Pod::Spec.new do |s|
   s.name             = 'conreality_headset'
-  s.version          = '0.0.1'
-  s.summary          = 'A new flutter plugin project.'
+  s.version          = '0.1.0'
+  s.summary          = 'Headset audio and text-to-speech support.'
   s.description      = <<-DESC
-A new flutter plugin project.
+Headset audio and text-to-speech support for Conreality live-action games.
                        DESC
-  s.homepage         = 'http://example.com'
-  s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.homepage         = 'https://github.com/conreality/conreality-plugins/tree/master/conreality_headset'
+  s.license          = { :file => '../UNLICENSE' }
+  s.author           = { 'Conreality Team' => 'conreality@googlegroups.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
