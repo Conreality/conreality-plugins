@@ -10,7 +10,7 @@ Headset audio and text-to-speech support for Conreality live-action games.
 Compatibility
 -------------
 
-Android only, at present. (iOS support is planned.)
+Android (5.0+). (iOS support is planned.)
 
 Examples
 --------
@@ -31,6 +31,23 @@ stream.listen((HeadsetEvent event) {
 });
 ```
 
+Features
+--------
+
+- Determines whether a wired or wireless headset is currently connected.
+
+- Provides headset events including connect/disconnect status notifications.
+
+### Supported Devices
+
+- Bluetooth headsets supporting the
+  [Headset Profile (HSP)](https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Headset_Profile_(HSP))
+  and/or
+  [Hands-Free Profile (HFP)](https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Hands-Free_Profile_(HFP))
+
+- Wired headphones connected to the
+  [headphone jack](https://en.wikipedia.org/wiki/Phone_connector_(audio))
+
 Installation
 ------------
 
@@ -38,7 +55,7 @@ Installation
 
     dependencies:
       # See: https://pub.dev/packages/conreality_headset
-      conreality_headset: ^0.1.0
+      conreality_headset: ^0.1.1
 
 ### `pubspec.yaml` using Git
 

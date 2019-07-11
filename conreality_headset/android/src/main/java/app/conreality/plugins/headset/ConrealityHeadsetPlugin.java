@@ -88,7 +88,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     if (this.bluetoothAdapter != null && this.bluetoothAdapter.isEnabled()) {
       final boolean ok = this.bluetoothAdapter.getProfileProxy(context, this, BluetoothProfile.HEADSET);
       if (!ok) {
-        Log.e(TAG, "Failed to connect to the Bluetooth headset profile proxy.");
+        Log.e(TAG, "Failed to connect to the Bluetooth headset service.");
       }
     }
 
@@ -146,7 +146,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   public void onServiceConnected(final int profile, final BluetoothProfile proxy) {
     if (profile == BluetoothProfile.HEADSET) {
       if (Log.isLoggable(TAG, Log.DEBUG)) {
-        Log.d(TAG, "Connected to the Bluetooth headset profile proxy.");
+        Log.d(TAG, "Connected to the Bluetooth headset service.");
       }
       this.bluetoothHeadset = (BluetoothHeadset)proxy;
       this.hasWirelessHeadset = (proxy.getConnectedDevices().size() > 0);
@@ -159,7 +159,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   public void onServiceDisconnected(final int profile) {
     if (profile == BluetoothProfile.HEADSET) {
       if (Log.isLoggable(TAG, Log.INFO)) {
-        Log.i(TAG, "Disconnected from the Bluetooth headset profile proxy.");
+        Log.i(TAG, "Disconnected from the Bluetooth headset service.");
       }
       this.bluetoothHeadset = null;
       this.hasWirelessHeadset = false;
