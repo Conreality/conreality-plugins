@@ -50,3 +50,10 @@ Installation
         git:
           url: https://github.com/conreality/conreality-plugins.git
           path: conreality_scripts
+
+See Also
+--------
+
+Follow [@ConrealityCode](https://twitter.com/ConrealityCode) and
+[@ConrealityGame](https://twitter.com/ConrealityGame) on Twitter for
+project updates.

@@ -103,3 +103,7 @@ See Also
 
 - `Conreality Developer App
   <https://github.com/conreality/conreality-developer>`__
+
+Follow `@ConrealityCode <https://twitter.com/ConrealityCode>`__ and
+`@ConrealityGame <https://twitter.com/ConrealityGame>`__ on Twitter for
+project updates.

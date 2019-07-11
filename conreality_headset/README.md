@@ -21,7 +21,7 @@ Features
 
 - Supports speech synthesis (text-to-speech) when a headset is connected.
 
-### Supported Devices
+### Supported devices
 
 - Bluetooth headsets supporting the
   [Headset Profile (HSP)](https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Headset_Profile_(HSP))
@@ -81,3 +81,10 @@ Installation
         git:
           url: https://github.com/conreality/conreality-plugins.git
           path: conreality_headset
+
+See Also
+--------
+
+Follow [@ConrealityCode](https://twitter.com/ConrealityCode) and
+[@ConrealityGame](https://twitter.com/ConrealityGame) on Twitter for
+project updates.
