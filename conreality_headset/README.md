@@ -12,6 +12,25 @@ Compatibility
 
 Android (5.0+). (iOS support is planned.)
 
+Features
+--------
+
+- Determines whether a wired or wireless headset is currently connected.
+
+- Provides headset events including connect/disconnect status notifications.
+
+- Supports speech synthesis (text-to-speech) when a headset is connected.
+
+### Supported Devices
+
+- Bluetooth headsets supporting the
+  [Headset Profile (HSP)](https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Headset_Profile_(HSP))
+  and/or
+  [Hands-Free Profile (HFP)](https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Hands-Free_Profile_(HFP))
+
+- Wired headphones connected to the
+  [headphone jack](https://en.wikipedia.org/wiki/Phone_connector_(audio))
+
 Examples
 --------
 
@@ -19,6 +38,14 @@ Examples
 
 ```dart
 import 'package:conreality_headset/conreality_headset.dart';
+```
+
+### Checking for a headset
+
+```dart
+var ok = await Headset.isConnected;
+
+print("Headset is " + (ok ? "connected" : "not connected"));
 ```
 
 ### Subscribing to headset events
@@ -31,22 +58,11 @@ stream.listen((HeadsetEvent event) {
 });
 ```
 
-Features
---------
+### Speaking into the headset
 
-- Determines whether a wired or wireless headset is currently connected.
-
-- Provides headset events including connect/disconnect status notifications.
-
-### Supported Devices
-
-- Bluetooth headsets supporting the
-  [Headset Profile (HSP)](https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Headset_Profile_(HSP))
-  and/or
-  [Hands-Free Profile (HFP)](https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Hands-Free_Profile_(HFP))
-
-- Wired headphones connected to the
-  [headphone jack](https://en.wikipedia.org/wiki/Phone_connector_(audio))
+```dart
+await Headset.speak("Hello, world!");
+```
 
 Installation
 ------------

@@ -22,6 +22,20 @@ abstract class Headset {
   static Future<bool> get isConnected async =>
       await _methodChannel.invokeMethod('isConnected');
 
+  /// Indicates if speech synthesis (aka text-to-speech) is supported.
+  static Future<bool> get canSpeak async =>
+      await _methodChannel.invokeMethod('canSpeak');
+
+  /// Synthesizes speech from the contents of [message] for immediate playback.
+  static Future<bool> speak(final String message) {
+    return _methodChannel.invokeMethod('speak', message);
+  }
+
+  /// Stops any ongoing speech synthesis immediately.
+  static Future<bool> stopSpeaking() {
+    return _methodChannel.invokeMethod('stopSpeaking');
+  }
+
   /// Subscribes to headset device events.
   static Future<Stream<HeadsetEvent>> subscribe() async {
     return _eventChannel.receiveBroadcastStream().map((dynamic isConnected) =>
