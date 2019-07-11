@@ -40,6 +40,6 @@ abstract class Headset {
   static Future<Stream<HeadsetEvent>> subscribe() async {
     return _eventChannel.receiveBroadcastStream().map((dynamic isConnected) =>
         HeadsetStatus(
-            type: HeadsetType.wired, isConnected: isConnected as bool));
+            type: HeadsetType.unknown, isConnected: isConnected as bool));
   }
 }

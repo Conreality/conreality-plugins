@@ -52,11 +52,16 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   private boolean hasWirelessHeadset;
   private boolean hasMicrophone;
 
+  @SuppressWarnings("deprecation")
   ConrealityHeadsetPlugin(final Registrar registrar) {
     this.registrar = registrar;
     this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     this.ttsEngine = new TextToSpeech(registrar.context(), this, TTS_ENGINE);
     this.ttsParams = new Bundle();
+
+    final AudioManager audioManager = (AudioManager)registrar.context().getSystemService(Context.AUDIO_SERVICE);
+    this.hasWiredHeadset = audioManager.isWiredHeadsetOn();
+    this.hasWirelessHeadset = audioManager.isBluetoothA2dpOn() || audioManager.isBluetoothScoOn();
   }
 
   private boolean isConnected() {

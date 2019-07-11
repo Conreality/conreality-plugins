@@ -45,7 +45,7 @@ import 'package:conreality_headset/conreality_headset.dart';
 ```dart
 var ok = await Headset.isConnected;
 
-print("Headset is " + (ok ? "connected" : "not connected"));
+print("Headset is " + (ok ? "connected" : "NOT connected"));
 ```
 
 ### Subscribing to headset events
