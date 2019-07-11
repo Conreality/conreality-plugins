@@ -3,6 +3,6 @@
 /// Represents the headset device type (wireless or wired).
 enum HeadsetType {
   unknown,
-  wired, // headphone jack plug
+  wired, // headphone jack plug or USB
   wireless, // Bluetooth
 }
