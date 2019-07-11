@@ -71,7 +71,7 @@ Installation
 
     dependencies:
       # See: https://pub.dev/packages/conreality_headset
-      conreality_headset: ^0.1.1
+      conreality_headset: ^0.1.2
 
 ### `pubspec.yaml` using Git
 
