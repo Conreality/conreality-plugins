@@ -18,5 +18,5 @@ abstract class ConrealityHeadset {
   ConrealityHeadset._();
 
   /// The current plugin version string.
-  static String get version => "0.1.3";
+  static String get version => "0.1.4";
 }
