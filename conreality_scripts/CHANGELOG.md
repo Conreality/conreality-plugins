@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Upcoming release
+### Changed
+- Required Flutter 1.7.8+ and Dart 2.4.0+
+
 ## 1.0.1+20190705.1 - 2019-07-05
 ### Changed
 - Updated the scripts to revision [486b59d](https://github.com/conreality/conreality-scripts/commit/486b59dd01353e71f280001caad831a5ce086d12)

@@ -7,8 +7,8 @@ author: Conreality Team <conreality@googlegroups.com>
 homepage: https://github.com/conreality/conreality-plugins/tree/master/conreality_scripts
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
-  flutter: ">=1.5.4-hotfix.2 <2.0.0"
+  sdk: ">=2.4.0 <3.0.0"
+  flutter: ">=1.7.8 <2.0.0"
 
 dependencies:
   flutter:

@@ -16,6 +16,17 @@ https://wiki.conreality.org/Plugins
 
 ----
 
+Requirements
+============
+
+- `Flutter <https://flutter.dev/>`__
+  `1.7.8+ <https://github.com/flutter/flutter/wiki/Release-Notes-Flutter-1.7.8>`__
+
+- `Dart <https://dart.dev/>`__
+  `2.4.0+ <https://github.com/dart-lang/sdk/blob/master/CHANGELOG.md#240---2019-06-27>`__
+
+----
+
 Overview
 ========
 
