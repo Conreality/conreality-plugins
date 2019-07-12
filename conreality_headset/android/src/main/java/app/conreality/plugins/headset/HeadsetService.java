@@ -54,8 +54,19 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
 
   /** Implements Service#onStartCommand(). */
   @Override
-  public int onStartCommand(final Intent intent, final int flags, final int startId) {
-    Log.d(TAG, String.format("HeadsetService.onStartCommand: intent=%s flags=%d startId=%d", intent, flags, startId));
+  public int onStartCommand(final Intent intent, final int flags, final int startID) {
+    final String action = (intent != null) ? intent.getAction() : null;
+    if (Log.isLoggable(TAG, Log.DEBUG)) {
+      Log.d(TAG, String.format("HeadsetService.onStartCommand: intent=%s flags=%d startID=%d action=%s", intent, flags, startID, action));
+    }
+    switch (action) {
+      case "speak": {
+        if (this.canSpeak()) {
+          this.speak(intent.getStringExtra("message"));
+        }
+        break;
+      }
+    }
     return START_REDELIVER_INTENT;
   }
 
@@ -85,12 +96,16 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
   }
 
   public boolean speak(final String message) {
+    if (Log.isLoggable(TAG, Log.DEBUG)) {
+      Log.d(TAG, String.format("HeadsetService.speak: message=\"%s\"", message));
+    }
     if (this.ttsEngine == null) return false;
     final String utteranceID = UUID.randomUUID().toString();
     return this.ttsEngine.speak(message, TextToSpeech.QUEUE_FLUSH, this.ttsParams, utteranceID) == TextToSpeech.SUCCESS;
   }
 
   public boolean stopSpeaking() {
+    Log.d(TAG, "HeadsetService.stopSpeaking");
     if (this.ttsEngine == null) return false;
     return this.ttsEngine.stop() == TextToSpeech.SUCCESS;
   }
