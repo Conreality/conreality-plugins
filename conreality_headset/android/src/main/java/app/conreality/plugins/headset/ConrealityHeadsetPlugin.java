@@ -8,13 +8,13 @@ import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
+import android.os.IBinder;
 import android.util.Log;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.EventSink;
@@ -24,14 +24,12 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import java.util.UUID;
 
 /** ConrealityHeadsetPlugin */
-public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements MethodCallHandler, StreamHandler, TextToSpeech.OnInitListener, BluetoothProfile.ServiceListener {
+public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements ServiceConnection, MethodCallHandler, StreamHandler, BluetoothProfile.ServiceListener {
   private static final String TAG = "ConrealityHeadset";
   private static final String METHOD_CHANNEL = "app.conreality.plugins.headset";
   private static final String EVENT_CHANNEL = "app.conreality.plugins.headset/status";
-  private static final String TTS_ENGINE = "com.google.android.tts";
 
   /** Plugin registration. */
   public static void registerWith(final Registrar registrar) {
@@ -44,9 +42,8 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
   private final Registrar registrar;
   private final BluetoothAdapter bluetoothAdapter;
+  private HeadsetService service;
   private BluetoothHeadset bluetoothHeadset;
-  private TextToSpeech ttsEngine;
-  private Bundle ttsParams;
   private EventChannel.EventSink events;
   private boolean hasWiredHeadset;
   private boolean hasWirelessHeadset;
@@ -56,12 +53,31 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   ConrealityHeadsetPlugin(final Registrar registrar) {
     this.registrar = registrar;
     this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    this.ttsEngine = new TextToSpeech(registrar.context(), this, TTS_ENGINE);
-    this.ttsParams = new Bundle();
+
+    final Context context = this.registrar.context();
+    final boolean ok = context.bindService(new Intent(context, HeadsetService.class), this, Context.BIND_AUTO_CREATE);
+    if (!ok) {
+      Log.e(TAG, "Failed to connect to the bound service.");
+    }
 
     final AudioManager audioManager = (AudioManager)registrar.context().getSystemService(Context.AUDIO_SERVICE);
     this.hasWiredHeadset = audioManager.isWiredHeadsetOn();
     this.hasWirelessHeadset = audioManager.isBluetoothA2dpOn() || audioManager.isBluetoothScoOn();
+  }
+
+  /** Implements ServiceConnection#onServiceConnected(). */
+  @Override
+  public void onServiceConnected(final ComponentName name, final IBinder service) {
+    Log.d(TAG, String.format("onServiceConnected: name=%s service=%s", name, service));
+    this.service = ((HeadsetService.LocalBinder)service).getService();
+    this.service.onConnection(this.registrar.context());
+  }
+
+  /** Implements ServiceConnection#onServiceDisconnected(). */
+  @Override
+  public void onServiceDisconnected(final ComponentName name) {
+    Log.d(TAG, String.format("onServiceDisconnected: name=%s", name));
+    this.service = null;
   }
 
   private boolean isConnected() {
@@ -91,35 +107,24 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
       }
 
       case "canSpeak": {
-        result.success(this.ttsEngine != null);
+        result.success((this.service == null) ? false : this.service.canSpeak());
         break;
       }
 
       case "speak": {
-        boolean ok = false;
-        if (this.ttsEngine != null) {
-          final String message = (String)call.arguments;
-          final String utteranceID = UUID.randomUUID().toString();
-          ok = (this.ttsEngine.speak(message, TextToSpeech.QUEUE_FLUSH, this.ttsParams, utteranceID) == TextToSpeech.SUCCESS);
-        }
-        result.success(ok);
+        result.success((this.service == null) ? false : this.service.speak((String)call.arguments));
         break;
       }
 
       case "stopSpeaking": {
-        boolean ok = false;
-        if (this.ttsEngine != null) {
-          ok = (this.ttsEngine.stop() == TextToSpeech.SUCCESS);
-        }
-        result.success(ok);
+        result.success((this.service == null) ? false : this.service.stopSpeaking());
         break;
       }
 
       case "shutdown": {
-        if (this.ttsEngine != null) {
-          this.ttsEngine.shutdown();
-          this.ttsEngine = null;
-          this.ttsParams = null;
+        if (this.service != null) {
+          this.registrar.context().unbindService(this);
+          this.service = null;
         }
         result.success(null);
         break;
@@ -217,22 +222,6 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
       this.bluetoothHeadset = null;
       this.hasWirelessHeadset = false;
       this.sendStatus();
-    }
-  }
-
-  /** Implements TextToSpeech.OnInitListener#onInit(). */
-  @Override
-  public void onInit(final int status) {
-    if (status == TextToSpeech.SUCCESS) {
-      if (Log.isLoggable(TAG, Log.DEBUG)) {
-        Log.d(TAG, "Initialized the speech synthesis engine.");
-      }
-      //this.ttsEngine.setOnUtteranceProgressListener(this); // TODO
-    }
-    else {
-      this.ttsEngine = null;
-      this.ttsParams = null;
-      Log.e(TAG, "Failed to initialize the speech synthesis engine.");
     }
   }
 }
