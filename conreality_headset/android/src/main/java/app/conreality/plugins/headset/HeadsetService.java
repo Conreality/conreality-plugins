@@ -11,6 +11,8 @@ import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /** HeadsetService */
@@ -27,6 +29,7 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
   private final IBinder binder = new LocalBinder();
   private TextToSpeech ttsEngine;
   private Bundle ttsParams;
+  private List<String> ttsQueue = new ArrayList<String>();
 
   /** Implements Service#onBind(). */
   @Override
@@ -49,6 +52,9 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
       this.ttsEngine = null;
       this.ttsParams = null;
     }
+    if (this.ttsQueue != null) {
+      this.ttsQueue = null;
+    }
     Log.i(TAG, "Terminated the bound service.");
   }
 
@@ -61,9 +67,7 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
     }
     switch (action) {
       case "speak": {
-        if (this.canSpeak()) {
-          this.speak(intent.getStringExtra("message"));
-        }
+        this.speak(intent.getStringExtra("message"));
         break;
       }
     }
@@ -83,30 +87,45 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
         Log.d(TAG, "Initialized the speech synthesis engine.");
       }
       //this.ttsEngine.setOnUtteranceProgressListener(this); // TODO
+      for (final String message : this.ttsQueue) {
+        this._speak(message, TextToSpeech.QUEUE_ADD);
+      }
+      this.ttsQueue.clear();
     }
     else {
       this.ttsEngine = null;
       this.ttsParams = null;
+      this.ttsQueue = null;
       Log.e(TAG, "Failed to initialize the speech synthesis engine.");
     }
   }
 
   public boolean canSpeak() {
-    return (this.ttsEngine != null);
+    return (this.ttsEngine != null) || (this.ttsQueue != null);
   }
 
   public boolean speak(final String message) {
     if (Log.isLoggable(TAG, Log.DEBUG)) {
       Log.d(TAG, String.format("HeadsetService.speak: message=\"%s\"", message));
     }
-    if (this.ttsEngine == null) return false;
-    final String utteranceID = UUID.randomUUID().toString();
-    return this.ttsEngine.speak(message, TextToSpeech.QUEUE_FLUSH, this.ttsParams, utteranceID) == TextToSpeech.SUCCESS;
+
+    if (this.ttsEngine == null) {
+      if (this.ttsQueue == null) return false; // nothing to be done
+      return ttsQueue.add(message);
+    }
+    return this._speak(message, TextToSpeech.QUEUE_FLUSH);
   }
 
   public boolean stopSpeaking() {
     Log.d(TAG, "HeadsetService.stopSpeaking");
+
+    if (this.ttsQueue != null) this.ttsQueue.clear();
     if (this.ttsEngine == null) return false;
     return this.ttsEngine.stop() == TextToSpeech.SUCCESS;
+  }
+
+  private boolean _speak(final String message, int queueMode) {
+    final String utteranceID = UUID.randomUUID().toString();
+    return this.ttsEngine.speak(message, queueMode, this.ttsParams, utteranceID) == TextToSpeech.SUCCESS;
   }
 }
