@@ -1,6 +1,6 @@
 # See: https://dart.dev/tools/pub/pubspec
 name: conreality_headset
-version: 0.1.2
+version: 0.1.3
 description: >-
   Headset audio and text-to-speech support for Conreality live-action games.
 author: Conreality Team <conreality@googlegroups.com>
