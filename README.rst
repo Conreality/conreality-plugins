@@ -45,6 +45,10 @@ Overview
      - Summary
      - Status
 
+   * - `conreality_beacon <#conreality_beacon>`__
+     - Radio beacon gadget support.
+     - Development
+
    * - `conreality_headset <#conreality_headset>`__
      - Headset audio and text-to-speech support.
      - Usable
@@ -56,6 +60,24 @@ Overview
    * - `conreality_scripts <#conreality_scripts>`__
      - Precompiled scripts repository.
      - Stable
+
+----
+
+conreality_beacon
+=================
+
+::
+
+   dependencies:
+     # See: https://github.com/conreality/conreality-plugins/tree/master/conreality_beacon
+     conreality_beacon:
+       git:
+         url: https://github.com/conreality/conreality-plugins.git
+         path: conreality_beacon
+
+::
+
+   import 'package:conreality_beacon/conreality_beacon.dart';
 
 ----
 
