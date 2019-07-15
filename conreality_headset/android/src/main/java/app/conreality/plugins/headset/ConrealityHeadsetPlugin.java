@@ -73,6 +73,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     final boolean ok = context.bindService(new Intent(context, HeadsetService.class), this, Context.BIND_AUTO_CREATE);
     if (!ok) {
       Log.e(TAG, "Failed to connect to the bound service.");
+      context.unbindService(this);
     }
 
     final @Nullable AudioManager audioManager = (AudioManager)registrar.context().getSystemService(Context.AUDIO_SERVICE);
