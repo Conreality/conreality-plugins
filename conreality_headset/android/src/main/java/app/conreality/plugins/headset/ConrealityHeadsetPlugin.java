@@ -2,6 +2,7 @@
 
 package app.conreality.plugins.headset;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
@@ -16,6 +17,8 @@ import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.util.Log;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.EventSink;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
@@ -26,7 +29,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** ConrealityHeadsetPlugin */
-public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements ServiceConnection, MethodCallHandler, StreamHandler, BluetoothProfile.ServiceListener {
+public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements DefaultLifecycleObserver, ServiceConnection, MethodCallHandler, StreamHandler, BluetoothProfile.ServiceListener {
   private static final String TAG = "ConrealityHeadset";
   private static final String METHOD_CHANNEL = "app.conreality.plugins.headset";
   private static final String EVENT_CHANNEL = "app.conreality.plugins.headset/status";
@@ -54,6 +57,11 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     this.registrar = registrar;
     this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+    final Activity activity = registrar.activity();
+    if (activity instanceof LifecycleOwner) {
+      ((LifecycleOwner)activity).getLifecycle().addObserver(this);
+    }
+
     final Context context = this.registrar.context();
     final boolean ok = context.bindService(new Intent(context, HeadsetService.class), this, Context.BIND_AUTO_CREATE);
     if (!ok) {
@@ -63,6 +71,19 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     final AudioManager audioManager = (AudioManager)registrar.context().getSystemService(Context.AUDIO_SERVICE);
     this.hasWiredHeadset = audioManager.isWiredHeadsetOn();
     this.hasWirelessHeadset = audioManager.isBluetoothA2dpOn() || audioManager.isBluetoothScoOn();
+  }
+
+  private boolean isConnected() {
+    return this.hasWiredHeadset || this.hasWirelessHeadset;
+  }
+
+  private void sendEvent(final Object event) {
+    assert(this.events != null);
+    this.events.success(event);
+  }
+
+  private void sendStatus() {
+    this.sendEvent(this.isConnected());
   }
 
   /** Implements ServiceConnection#onServiceConnected(). */
@@ -78,19 +99,6 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   public void onServiceDisconnected(final ComponentName name) {
     Log.d(TAG, String.format("onServiceDisconnected: name=%s", name));
     this.service = null;
-  }
-
-  private boolean isConnected() {
-    return this.hasWiredHeadset || this.hasWirelessHeadset;
-  }
-
-  private void sendEvent(final Object event) {
-    assert(this.events != null);
-    this.events.success(event);
-  }
-
-  private void sendStatus() {
-    this.sendEvent(this.isConnected());
   }
 
   /** Implements MethodCallHandler#onMethodCall(). */
