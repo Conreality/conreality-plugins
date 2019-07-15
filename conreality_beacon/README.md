@@ -21,6 +21,16 @@ Examples
 import 'package:conreality_beacon/conreality_beacon.dart';
 ```
 
+### Scanning for beacons
+
+```dart
+Stream<BeaconScan> stream = await Beacons.scan();
+
+stream.listen((BeaconScan event) {
+  print(scan);
+});
+```
+
 Installation
 ------------
 
