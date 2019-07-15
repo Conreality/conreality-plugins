@@ -17,6 +17,9 @@ import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.util.Log;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import io.flutter.plugin.common.EventChannel;
@@ -35,7 +38,9 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   private static final String EVENT_CHANNEL = "app.conreality.plugins.headset/status";
 
   /** Plugin registration. */
-  public static void registerWith(final Registrar registrar) {
+  public static void registerWith(final @NonNull Registrar registrar) {
+    assert(registrar != null);
+
     final MethodChannel methodChannel = new MethodChannel(registrar.messenger(), METHOD_CHANNEL);
     final EventChannel eventChannel = new EventChannel(registrar.messenger(), EVENT_CHANNEL);
     final ConrealityHeadsetPlugin instance = new ConrealityHeadsetPlugin(registrar);
@@ -43,34 +48,38 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     eventChannel.setStreamHandler(instance);
   }
 
-  private final Registrar registrar;
-  private final BluetoothAdapter bluetoothAdapter;
-  private HeadsetService service;
-  private BluetoothHeadset bluetoothHeadset;
-  private EventChannel.EventSink events;
+  private final @NonNull Registrar registrar;
+  private final @Nullable BluetoothAdapter bluetoothAdapter;
+  private @Nullable HeadsetService service;
+  private @Nullable BluetoothHeadset bluetoothHeadset;
+  private @Nullable EventChannel.EventSink events;
   private boolean hasWiredHeadset;
   private boolean hasWirelessHeadset;
   private boolean hasMicrophone;
 
   @SuppressWarnings("deprecation")
-  ConrealityHeadsetPlugin(final Registrar registrar) {
+  ConrealityHeadsetPlugin(final @NonNull Registrar registrar) {
+    assert(registrar != null);
+
     this.registrar = registrar;
     this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-    final Activity activity = registrar.activity();
+    final @NonNull Activity activity = registrar.activity();
     if (activity instanceof LifecycleOwner) {
       ((LifecycleOwner)activity).getLifecycle().addObserver(this);
     }
 
-    final Context context = this.registrar.context();
+    final @NonNull Context context = this.registrar.context();
     final boolean ok = context.bindService(new Intent(context, HeadsetService.class), this, Context.BIND_AUTO_CREATE);
     if (!ok) {
       Log.e(TAG, "Failed to connect to the bound service.");
     }
 
-    final AudioManager audioManager = (AudioManager)registrar.context().getSystemService(Context.AUDIO_SERVICE);
-    this.hasWiredHeadset = audioManager.isWiredHeadsetOn();
-    this.hasWirelessHeadset = audioManager.isBluetoothA2dpOn() || audioManager.isBluetoothScoOn();
+    final @Nullable AudioManager audioManager = (AudioManager)registrar.context().getSystemService(Context.AUDIO_SERVICE);
+    if (audioManager != null) {
+      this.hasWiredHeadset = audioManager.isWiredHeadsetOn();
+      this.hasWirelessHeadset = audioManager.isBluetoothA2dpOn() || audioManager.isBluetoothScoOn();
+    }
   }
 
   private boolean isConnected() {
@@ -88,7 +97,10 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
   /** Implements ServiceConnection#onServiceConnected(). */
   @Override
-  public void onServiceConnected(final ComponentName name, final IBinder service) {
+  public void onServiceConnected(final @NonNull ComponentName name, final @NonNull IBinder service) {
+    assert(name != null);
+    assert(service != null);
+
     Log.d(TAG, String.format("onServiceConnected: name=%s service=%s", name, service));
     this.service = ((HeadsetService.LocalBinder)service).getService();
     this.service.onConnection(this.registrar.context());
@@ -96,14 +108,16 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
   /** Implements ServiceConnection#onServiceDisconnected(). */
   @Override
-  public void onServiceDisconnected(final ComponentName name) {
+  public void onServiceDisconnected(final @NonNull ComponentName name) {
+    assert(name != null);
+
     Log.d(TAG, String.format("onServiceDisconnected: name=%s", name));
     this.service = null;
   }
 
   /** Implements MethodCallHandler#onMethodCall(). */
   @Override
-  public void onMethodCall(final MethodCall call, final Result result) {
+  public void onMethodCall(final @NonNull MethodCall call, final @NonNull Result result) {
     assert(result != null);
     assert(call != null);
     assert(call.method != null);
@@ -146,7 +160,9 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
   /** Implements StreamHandler#onListen(). */
   @Override
-  public void onListen(final Object _arguments, final EventChannel.EventSink events) {
+  public void onListen(final @Nullable Object _arguments, final @NonNull EventChannel.EventSink events) {
+    assert(events != null);
+
     this.events = events;
 
     final Context context = this.registrar.context();
@@ -164,7 +180,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
   /** Implements StreamHandler#onCancel(). */
   @Override
-  public void onCancel(final Object _arguments) {
+  public void onCancel(final @Nullable Object _arguments) {
     this.registrar.context().unregisterReceiver(this);
 
     if (this.bluetoothAdapter != null && this.bluetoothHeadset != null) {
@@ -176,8 +192,12 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   }
 
   /** Implements BroadcastReceiver#onReceive(). */
+  @MainThread
   @Override
-  public void onReceive(final Context context, final Intent intent) {
+  public void onReceive(final @NonNull Context context, final @NonNull Intent intent) {
+    assert(context != null);
+    assert(intent != null);
+
     switch (intent.getAction()) {
       case AudioManager.ACTION_HEADSET_PLUG: {
         final int state = intent.getIntExtra("state", -1);
@@ -209,7 +229,9 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
   /** Implements BluetoothProfile.ServiceListener#onServiceConnected(). */
   @Override
-  public void onServiceConnected(final int profile, final BluetoothProfile proxy) {
+  public void onServiceConnected(final int profile, final @NonNull BluetoothProfile proxy) {
+    assert(proxy != null);
+
     if (profile == BluetoothProfile.HEADSET) {
       if (Log.isLoggable(TAG, Log.DEBUG)) {
         Log.d(TAG, "Connected to the Bluetooth headset service.");

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Required Flutter 1.7.8+ and Dart 2.4.0+
 ### Added
+- AndroidX @NonNull/@Nullable/etc annotations
 - [AndroidX lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle) support
 
 ## 0.1.4 - 2019-07-12

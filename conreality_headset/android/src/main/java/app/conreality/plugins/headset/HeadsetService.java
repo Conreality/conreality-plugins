@@ -11,6 +11,8 @@ import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,19 +23,19 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
   private static final String TTS_ENGINE = "com.google.android.tts";
 
   public final class LocalBinder extends Binder {
-    HeadsetService getService() {
+    public @NonNull HeadsetService getService() {
       return HeadsetService.this;
     }
   }
 
-  private final IBinder binder = new LocalBinder();
-  private TextToSpeech ttsEngine;
-  private Bundle ttsParams;
-  private List<String> ttsQueue = new ArrayList<String>();
+  private final @NonNull IBinder binder = new LocalBinder();
+  private @Nullable TextToSpeech ttsEngine;
+  private @Nullable Bundle ttsParams;
+  private @Nullable List<String> ttsQueue = new ArrayList<String>();
 
   /** Implements Service#onBind(). */
   @Override
-  public IBinder onBind(final Intent intent) {
+  public @NonNull IBinder onBind(final @NonNull Intent intent) {
     return this.binder;
   }
 
@@ -41,6 +43,13 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
   @Override
   public void onCreate() {
     Log.i(TAG, "Created the bound service.");
+  }
+
+  public void onConnection(final @NonNull Context context) {
+    assert(context != null);
+
+    this.ttsEngine = new TextToSpeech(context, this, TTS_ENGINE);
+    this.ttsParams = new Bundle();
   }
 
   /** Implements Service#onDestroy(). */
@@ -60,7 +69,9 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
 
   /** Implements Service#onStartCommand(). */
   @Override
-  public int onStartCommand(final Intent intent, final int flags, final int startID) {
+  public int onStartCommand(final @NonNull Intent intent, final int flags, final int startID) {
+    assert(intent != null);
+
     final String action = (intent != null) ? intent.getAction() : null;
     if (Log.isLoggable(TAG, Log.DEBUG)) {
       Log.d(TAG, String.format("HeadsetService.onStartCommand: intent=%s flags=%d startID=%d action=%s", intent, flags, startID, action));
@@ -72,11 +83,6 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
       }
     }
     return START_REDELIVER_INTENT;
-  }
-
-  public void onConnection(final Context context) {
-    this.ttsEngine = new TextToSpeech(context, this, TTS_ENGINE);
-    this.ttsParams = new Bundle();
   }
 
   /** Implements TextToSpeech.OnInitListener#onInit(). */
@@ -104,7 +110,9 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
     return (this.ttsEngine != null) || (this.ttsQueue != null);
   }
 
-  public boolean speak(final String message) {
+  public boolean speak(final @NonNull String message) {
+    assert(message != null);
+
     if (Log.isLoggable(TAG, Log.DEBUG)) {
       Log.d(TAG, String.format("HeadsetService.speak: message=\"%s\"", message));
     }
@@ -124,8 +132,10 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
     return this.ttsEngine.stop() == TextToSpeech.SUCCESS;
   }
 
-  private boolean _speak(final String message, int queueMode) {
-    final String utteranceID = UUID.randomUUID().toString();
+  private boolean _speak(final @NonNull String message, int queueMode) {
+    assert(message != null);
+
+    final @NonNull String utteranceID = UUID.randomUUID().toString();
     return this.ttsEngine.speak(message, queueMode, this.ttsParams, utteranceID) == TextToSpeech.SUCCESS;
   }
 }
