@@ -1,7 +1,7 @@
 # See: https://guides.cocoapods.org/syntax/podspec.html
 Pod::Spec.new do |s|
   s.name             = 'conreality_headset'
-  s.version          = '0.1.4'
+  s.version          = '0.2.0'
   s.summary          = 'Headset audio and text-to-speech support.'
   s.description      = <<-DESC
 Headset audio and text-to-speech support for Conreality live-action games.
