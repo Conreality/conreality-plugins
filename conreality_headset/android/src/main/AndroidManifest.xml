@@ -1,5 +1,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="app.conreality.plugins.headset">
+          package="app.conreality.plugins.headset">
+
+  <!-- See: https://developer.android.com/reference/android/Manifest.permission#BLUETOOTH -->
+  <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+  <!-- See: https://developer.android.com/reference/android/Manifest.permission#BLUETOOTH_ADMIN -->
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+  <!-- See: https://developer.android.com/reference/android/Manifest.permission#BROADCAST_STICKY -->
+  <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+
+  <!-- See: https://developer.android.com/reference/android/Manifest.permission#FOREGROUND_SERVICE -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+  <!-- See: https://developer.android.com/reference/android/Manifest.permission#MODIFY_AUDIO_SETTINGS -->
+  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+  <!-- See: https://developer.android.com/reference/android/Manifest.permission#RECORD_AUDIO -->
+  <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
   <application>
     <service android:name=".HeadsetService"/>
   </application>
