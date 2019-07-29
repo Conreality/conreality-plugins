@@ -2,6 +2,7 @@
 
 package app.conreality.plugins.headset;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -14,12 +15,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import io.flutter.plugin.common.EventChannel;
@@ -53,6 +57,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   private @Nullable HeadsetService service;
   private @Nullable BluetoothHeadset bluetoothHeadset;
   private @Nullable EventChannel.EventSink events;
+  private @Nullable AudioRecordingThread recordingThread;
   private boolean hasWiredHeadset;
   private boolean hasWirelessHeadset;
   private boolean hasMicrophone;
@@ -80,6 +85,11 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     if (audioManager != null) {
       this.hasWiredHeadset = audioManager.isWiredHeadsetOn();
       this.hasWirelessHeadset = audioManager.isBluetoothA2dpOn() || audioManager.isBluetoothScoOn();
+    }
+
+    // Request the permission to record audio:
+    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO}, 0); // TODO: handle the callback
     }
   }
 
@@ -177,6 +187,12 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
     context.registerReceiver(this, new IntentFilter(AudioManager.ACTION_HEADSET_PLUG));
     context.registerReceiver(this, new IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED));
+    context.registerReceiver(this, new IntentFilter(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED));
+
+    final @Nullable AudioManager audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+    if (audioManager != null) {
+      audioManager.startBluetoothSco();
+    }
   }
 
   /** Implements StreamHandler#onCancel(). */
@@ -221,6 +237,51 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
         }
         this.hasWirelessHeadset = (state == BluetoothProfile.STATE_CONNECTED);
         this.sendStatus();
+        final @Nullable AudioManager audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager != null) {
+          if (this.hasWirelessHeadset) {
+            audioManager.startBluetoothSco();
+          }
+          else {
+            audioManager.stopBluetoothSco();
+          }
+        }
+        break;
+      }
+
+      case AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED: {
+        final int state = intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, AudioManager.SCO_AUDIO_STATE_ERROR);
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+          Log.d(TAG, String.format("Received broadcast: %s state=%d", intent.toString(), state));
+        }
+        switch (state) {
+          // Audio channel is being established
+          case AudioManager.SCO_AUDIO_STATE_CONNECTING: {
+            // nothing to do just yet
+            break;
+          }
+          // Audio channel is established
+          case AudioManager.SCO_AUDIO_STATE_CONNECTED: {
+            if (this.recordingThread == null) {
+              this.recordingThread = new AudioRecordingThread();
+              this.recordingThread.start();
+            }
+            break;
+          }
+          // Audio channel is not established
+          case AudioManager.SCO_AUDIO_STATE_DISCONNECTED: {
+            if (this.recordingThread != null) {
+              this.recordingThread.interrupt();
+              this.recordingThread = null;
+            }
+            break;
+          }
+          // An error trying to obtain the state
+          case AudioManager.SCO_AUDIO_STATE_ERROR: {
+            // should be unreachable
+            break;
+          }
+        }
         break;
       }
 
