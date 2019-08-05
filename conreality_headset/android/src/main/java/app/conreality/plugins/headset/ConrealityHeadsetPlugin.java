@@ -114,7 +114,6 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
 
     Log.d(TAG, String.format("onServiceConnected: name=%s service=%s", name, service));
     this.service = ((HeadsetService.LocalBinder)service).getService();
-    this.service.onConnection(this.registrar.context());
   }
 
   /** Implements ServiceConnection#onServiceDisconnected(). */

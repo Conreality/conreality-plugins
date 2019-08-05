@@ -43,12 +43,7 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
   @Override
   public void onCreate() {
     Log.i(TAG, "Created the bound service.");
-  }
-
-  public void onConnection(final @NonNull Context context) {
-    assert(context != null);
-
-    this.ttsEngine = new TextToSpeech(context, this, TTS_ENGINE);
+    this.ttsEngine = new TextToSpeech(this, this, TTS_ENGINE);
     this.ttsParams = new Bundle();
   }
 
@@ -89,9 +84,7 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
   @Override
   public void onInit(final int status) {
     if (status == TextToSpeech.SUCCESS) {
-      if (Log.isLoggable(TAG, Log.DEBUG)) {
-        Log.d(TAG, "Initialized the speech synthesis engine.");
-      }
+      Log.d(TAG, "Initialized the speech synthesis engine.");
       //this.ttsEngine.setOnUtteranceProgressListener(this); // TODO
       for (final String message : this.ttsQueue) {
         this._speak(message, TextToSpeech.QUEUE_ADD);
@@ -99,10 +92,10 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
       this.ttsQueue.clear();
     }
     else {
+      Log.e(TAG, "Failed to initialize the speech synthesis engine.");
       this.ttsEngine = null;
       this.ttsParams = null;
       this.ttsQueue = null;
-      Log.e(TAG, "Failed to initialize the speech synthesis engine.");
     }
   }
 
@@ -129,6 +122,7 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
 
     if (this.ttsQueue != null) this.ttsQueue.clear();
     if (this.ttsEngine == null) return false;
+
     return this.ttsEngine.stop() == TextToSpeech.SUCCESS;
   }
 
