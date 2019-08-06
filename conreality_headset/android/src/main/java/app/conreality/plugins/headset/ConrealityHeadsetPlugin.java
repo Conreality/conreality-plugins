@@ -143,6 +143,11 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
         break;
       }
 
+      case "playFile": {
+        result.success((this.service == null) ? false : this.service.playFile((String)call.arguments));
+        break;
+      }
+
       case "speak": {
         result.success((this.service == null) ? false : this.service.speak((String)call.arguments));
         break;

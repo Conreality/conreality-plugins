@@ -18,7 +18,7 @@ public final class AudioRecordingThread extends Thread {
   private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
   private static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 
-  final ByteBuffer buffer;
+  ByteBuffer buffer;
   AudioRecord recorder;
 
   AudioRecordingThread() {
@@ -61,6 +61,7 @@ public final class AudioRecordingThread extends Thread {
       }
       this.recorder.release();
       this.recorder = null;
+      this.buffer = null;
     }
   }
 }

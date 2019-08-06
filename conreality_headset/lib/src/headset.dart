@@ -26,6 +26,11 @@ abstract class Headset {
   static Future<bool> get canSpeak async =>
       await _methodChannel.invokeMethod('canSpeak');
 
+  /// Plays a PCM file to the headset.
+  static Future<bool> playFile(final String filePath) {
+    return _methodChannel.invokeMethod('playFile', filePath);
+  }
+
   /// Synthesizes speech from the contents of [message] for immediate playback.
   static Future<bool> speak(final String message) {
     return _methodChannel.invokeMethod('speak', message);

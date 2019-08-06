@@ -5,6 +5,7 @@ package app.conreality.plugins.headset;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioTrack;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -13,6 +14,8 @@ import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -99,10 +102,24 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
     }
   }
 
+  /** Plays an audio file. */
+  public boolean playFile(final @NonNull String file) {
+    try {
+      (new AudioPlaybackThread(new File(file))).start();
+      return true;
+    }
+    catch (final FileNotFoundException error) {
+      Log.e(TAG, "Failed to play audio file.", error);
+      return false;
+    }
+  }
+
+  /** Determines whether text-to-speech is supported. */
   public boolean canSpeak() {
     return (this.ttsEngine != null) || (this.ttsQueue != null);
   }
 
+  /** Synthesizes speech from the given text message. */
   public boolean speak(final @NonNull String message) {
     assert(message != null);
 
@@ -117,6 +134,7 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
     return this._speak(message, TextToSpeech.QUEUE_FLUSH);
   }
 
+  /** Stops any ongoing speech synthesis. */
   public boolean stopSpeaking() {
     Log.d(TAG, "HeadsetService.stopSpeaking");
 
