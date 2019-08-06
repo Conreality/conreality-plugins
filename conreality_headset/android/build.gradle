@@ -40,11 +40,13 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'])
+
     // see: https://developer.android.com/jetpack/androidx/releases/core
-    compile 'androidx.core:core:1.0.2'
+    implementation 'androidx.core:core:1.0.2'
 
     // See: https://developer.android.com/jetpack/androidx/releases/annotation
-    compile 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
 
     // See: https://developer.android.com/jetpack/androidx/releases/lifecycle
     def lifecycle_version = '2.0.0'

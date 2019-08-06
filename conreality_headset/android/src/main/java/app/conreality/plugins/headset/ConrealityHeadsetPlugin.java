@@ -34,6 +34,8 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import org.conreality.sdk.android.AudioRecorderThread;
+import org.conreality.sdk.android.HeadsetService;
 
 /** ConrealityHeadsetPlugin */
 public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements DefaultLifecycleObserver, ServiceConnection, MethodCallHandler, StreamHandler, BluetoothProfile.ServiceListener {
@@ -57,7 +59,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
   private @Nullable HeadsetService service;
   private @Nullable BluetoothHeadset bluetoothHeadset;
   private @Nullable EventChannel.EventSink events;
-  private @Nullable AudioRecordingThread recordingThread;
+  private @Nullable AudioRecorderThread recordingThread;
   private boolean hasWiredHeadset;
   private boolean hasWirelessHeadset;
   private boolean hasMicrophone;
@@ -267,7 +269,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
           // Audio channel is established
           case AudioManager.SCO_AUDIO_STATE_CONNECTED: {
             if (this.recordingThread == null) {
-              this.recordingThread = new AudioRecordingThread();
+              this.recordingThread = new AudioRecorderThread();
               this.recordingThread.start();
             }
             break;
