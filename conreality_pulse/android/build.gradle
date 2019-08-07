@@ -28,6 +28,12 @@ android {
         minSdkVersion 21 // Android 5.0 (Lollipop)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     lintOptions {
         disable 'InvalidPackage'
     }
@@ -36,6 +42,9 @@ android {
 dependencies {
     // See: https://github.com/conreality/conreality-android/releases
     compileOnly fileTree(dir: 'libs', include: 'conreality-android-*.aar')
+
+    // See: https://developer.android.com/jetpack/androidx/releases/annotation
+    implementation 'androidx.annotation:annotation:1.1.0'
 
     // See: https://github.com/polarofficial/polar-ble-sdk/releases
     implementation fileTree(dir: 'libs', include: 'polar-ble-sdk.aar')
