@@ -40,9 +40,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'])
+    // See: https://github.com/conreality/conreality-android/releases
+    compileOnly fileTree(dir: 'libs', include: 'conreality-android-*.aar')
 
-    // see: https://developer.android.com/jetpack/androidx/releases/core
+    // See: https://developer.android.com/jetpack/androidx/releases/core
     implementation 'androidx.core:core:1.0.2'
 
     // See: https://developer.android.com/jetpack/androidx/releases/annotation
