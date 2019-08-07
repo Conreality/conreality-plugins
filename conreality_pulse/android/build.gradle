@@ -1,5 +1,5 @@
 group 'app.conreality.plugins.pulse'
-version '1.0-SNAPSHOT'
+version file('../VERSION').text.trim()
 
 buildscript {
     repositories {
