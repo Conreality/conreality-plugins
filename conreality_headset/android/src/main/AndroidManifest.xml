@@ -18,8 +18,4 @@
 
   <!-- See: https://developer.android.com/reference/android/Manifest.permission#RECORD_AUDIO -->
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
-  <application>
-    <service android:name=".HeadsetService"/>
-  </application>
 </manifest>

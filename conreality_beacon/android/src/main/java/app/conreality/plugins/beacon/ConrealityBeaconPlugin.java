@@ -32,6 +32,7 @@ import java.util.Map;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.conreality.sdk.android.BeaconService;
 
 /** ConrealityBeaconPlugin */
 public final class ConrealityBeaconPlugin implements DefaultLifecycleObserver, ServiceConnection, MethodCallHandler, StreamHandler {
@@ -88,10 +89,9 @@ public final class ConrealityBeaconPlugin implements DefaultLifecycleObserver, S
     this.events = events;
 
     final @NonNull Context context = this.registrar.context();
-    final boolean ok = context.bindService(new Intent(context, BeaconService.class), this, Context.BIND_AUTO_CREATE);
+    final boolean ok = BeaconService.bind(context, this);
     if (!ok) {
       Log.e(TAG, "Failed to connect to the bound service.");
-      context.unbindService(this);
     }
   }
 

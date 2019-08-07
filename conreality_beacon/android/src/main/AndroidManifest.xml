@@ -1,6 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="app.conreality.plugins.beacon">
-  <application>
-    <service android:name=".BeaconService"/>
-  </application>
+          package="app.conreality.plugins.beacon">
 </manifest>
