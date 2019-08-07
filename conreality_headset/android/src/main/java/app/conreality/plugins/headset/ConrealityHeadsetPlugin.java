@@ -2,12 +2,10 @@
 
 package app.conreality.plugins.headset;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
-import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -15,15 +13,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import io.flutter.plugin.common.EventChannel;
@@ -35,6 +30,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import org.conreality.sdk.android.AudioRecorderThread;
+import org.conreality.sdk.android.Headset;
 import org.conreality.sdk.android.HeadsetService;
 
 /** ConrealityHeadsetPlugin */
@@ -76,8 +72,8 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
       ((LifecycleOwner)activity).getLifecycle().addObserver(this);
     }
 
-    final @NonNull Context context = this.registrar.context();
-    final boolean ok = context.bindService(new Intent(context, HeadsetService.class), this, Context.BIND_AUTO_CREATE);
+    final @NonNull Context context = registrar.context();
+    final boolean ok = HeadsetService.bind(context, this);
     if (!ok) {
       Log.e(TAG, "Failed to connect to the bound service.");
       context.unbindService(this);
@@ -90,8 +86,8 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     }
 
     // Request the permission to record audio:
-    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-      ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO}, 0); // TODO: handle the callback
+    if (!Headset.hasPermissions(context)) {
+      Headset.requestPermissions(activity);
     }
   }
 
