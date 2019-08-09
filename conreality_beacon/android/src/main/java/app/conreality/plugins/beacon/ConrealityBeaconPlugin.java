@@ -101,7 +101,7 @@ public final class ConrealityBeaconPlugin implements DefaultLifecycleObserver, S
     this.events = null;
   }
 
-  /** Implements ServiceConnection#onServiceConnected(). */
+  /** Implements android.content.ServiceConnection#onServiceConnected(). */
   @Override
   public void onServiceConnected(final @NonNull ComponentName name, final @NonNull IBinder service) {
     assert(name != null);
@@ -143,7 +143,7 @@ public final class ConrealityBeaconPlugin implements DefaultLifecycleObserver, S
     });
   }
 
-  /** Implements ServiceConnection#onServiceDisconnected(). */
+  /** Implements android.content.ServiceConnection#onServiceDisconnected(). */
   @Override
   public void onServiceDisconnected(final @NonNull ComponentName name) {
     assert(name != null);

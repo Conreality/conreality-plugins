@@ -103,7 +103,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     this.sendEvent(this.isConnected());
   }
 
-  /** Implements ServiceConnection#onServiceConnected(). */
+  /** Implements android.content.ServiceConnection#onServiceConnected(). */
   @Override
   public void onServiceConnected(final @NonNull ComponentName name, final @NonNull IBinder service) {
     assert(name != null);
@@ -113,7 +113,7 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     this.service = ((HeadsetService.LocalBinder)service).getService();
   }
 
-  /** Implements ServiceConnection#onServiceDisconnected(). */
+  /** Implements android.content.ServiceConnection#onServiceDisconnected(). */
   @Override
   public void onServiceDisconnected(final @NonNull ComponentName name) {
     assert(name != null);
