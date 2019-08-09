@@ -8,7 +8,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2' // or higher
+        // See: https://developer.android.com/studio/releases/gradle-plugin
+        classpath 'com.android.tools.build:gradle:3.3.2'
     }
 }
 
