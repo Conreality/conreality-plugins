@@ -52,6 +52,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
+    // See: https://github.com/ReactiveX/RxJava/releases
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
     // See: https://github.com/AltBeacon/android-beacon-library/releases
     implementation 'org.altbeacon:android-beacon-library:2.16.2'
 }
