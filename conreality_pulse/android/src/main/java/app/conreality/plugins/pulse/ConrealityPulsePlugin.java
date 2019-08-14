@@ -36,6 +36,8 @@ public final class ConrealityPulsePlugin implements ServiceConnection, EventChan
   private @Nullable EventChannel.EventSink output;
 
   private ConrealityPulsePlugin(final @NonNull Registrar registrar) {
+    assert(registrar != null);
+
     this.registrar = registrar;
 
     final boolean ok = PulseService.bind(registrar.context(), this);
@@ -56,9 +58,9 @@ public final class ConrealityPulsePlugin implements ServiceConnection, EventChan
     this.input = this.service.measure()
         .observeOn(AndroidSchedulers.mainThread())
         // TODO: error handling
-        .subscribe(value -> {
+        .subscribe(event -> {
           if (output != null) {
-            output.success(value.intValue());
+            output.success(event.intValue());
           }
         });
   }
@@ -70,11 +72,11 @@ public final class ConrealityPulsePlugin implements ServiceConnection, EventChan
 
     Log.d(TAG, String.format("onServiceDisconnected: name=%s", name));
 
-    this.service = null;
     if (this.input != null) {
       this.input.dispose();
       this.input = null;
     }
+    this.service = null;
   }
 
   /** Implements io.flutter.plugin.common.EventChannel.StreamHandler#onListen(). */
