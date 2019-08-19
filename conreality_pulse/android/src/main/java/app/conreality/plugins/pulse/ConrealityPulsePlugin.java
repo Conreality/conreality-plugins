@@ -10,12 +10,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import dev.conreality.sdk.android.Pulse;
+import dev.conreality.sdk.android.PulseService;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import org.conreality.sdk.android.Pulse;
-import org.conreality.sdk.android.PulseService;
 
 /** ConrealityPulsePlugin */
 public final class ConrealityPulsePlugin implements ServiceConnection, EventChannel.StreamHandler {

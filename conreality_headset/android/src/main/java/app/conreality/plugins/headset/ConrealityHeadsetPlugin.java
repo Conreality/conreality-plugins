@@ -13,6 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
+import dev.conreality.sdk.android.Headset;
+import dev.conreality.sdk.android.HeadsetService;
+import dev.conreality.sdk.android.HeadsetStatus;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.EventSink;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
@@ -23,9 +26,6 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import org.conreality.sdk.android.Headset;
-import org.conreality.sdk.android.HeadsetService;
-import org.conreality.sdk.android.HeadsetStatus;
 
 /** ConrealityHeadsetPlugin */
 public final class ConrealityHeadsetPlugin implements DefaultLifecycleObserver, ServiceConnection, StreamHandler, MethodCallHandler {

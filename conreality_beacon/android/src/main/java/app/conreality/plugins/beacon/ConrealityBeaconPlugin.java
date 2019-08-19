@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
+import dev.conreality.sdk.android.BeaconService;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.EventSink;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
@@ -32,7 +33,6 @@ import java.util.Map;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
-import org.conreality.sdk.android.BeaconService;
 
 /** ConrealityBeaconPlugin */
 public final class ConrealityBeaconPlugin implements DefaultLifecycleObserver, ServiceConnection, MethodCallHandler, StreamHandler {

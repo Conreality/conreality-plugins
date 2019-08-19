@@ -12,7 +12,7 @@ Conreality Plugins
 
 |
 
-https://wiki.conreality.org/Plugins
+https://conreality.wiki/Plugins
 
 ----
 
