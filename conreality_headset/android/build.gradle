@@ -1,5 +1,5 @@
 group 'app.conreality.plugins.headset'
-version file('../VERSION').text.trim()
+version '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -8,8 +8,7 @@ buildscript {
     }
 
     dependencies {
-        // See: https://developer.android.com/studio/releases/gradle-plugin
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.3.2' // or higher
     }
 }
 
@@ -41,21 +40,11 @@ android {
 }
 
 dependencies {
-    // See: https://github.com/conreality/conreality-android/releases
-    compileOnly fileTree(dir: 'libs', include: 'conreality-android-*.aar')
-
-    // See: https://developer.android.com/jetpack/androidx/releases/core
-    implementation 'androidx.core:core:1.0.2'
-
     // See: https://developer.android.com/jetpack/androidx/releases/annotation
-    implementation 'androidx.annotation:annotation:1.1.0'
+    compile "androidx.annotation:annotation:1.1.0"
 
     // See: https://developer.android.com/jetpack/androidx/releases/lifecycle
     def lifecycle_version = '2.0.0'
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-
-    // See: https://github.com/ReactiveX/RxJava/releases
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 }
