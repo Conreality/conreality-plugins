@@ -14,28 +14,31 @@ public class SwiftConrealityHeadsetPlugin: NSObject, FlutterPlugin {
 	var hasMicroPhone: Bool = false
 	var hasInbuiltMicroPhone: Bool = false
 	var hasHeadsetMicroPhone: Bool = false
-	
-  public static func register(with registrar: FlutterPluginRegistrar) {
-    channel = FlutterMethodChannel(name: "app.conreality.plugins.headset", binaryMessenger: registrar.messenger())
-	eventChannel = FlutterEventChannel(name: "app.conreality.plugins.headset/status", binaryMessenger: registrar.messenger())
-    let instance = SwiftConrealityHeadsetPlugin()
-	registrar.addMethodCallDelegate(instance, channel: channel!)
-	eventChannel?.setStreamHandler(HeadsetStreamHandler())
-	let sessionInstance = AVAudioSession.sharedInstance()
-	NotificationCenter.default.addObserver(self, selector: #selector(SwiftConrealityHeadsetPlugin.audioRouteChangeListener(_:)), name: AVAudioSession.routeChangeNotification, object: sessionInstance)
-  }
-
-  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-	print("method called: \(call.method)")
-	switch call.method {
-		case "isConnected":
-			result(headphonesConnected)
-		default:
-			result(nil)
+	public override init() {
+		super.init()
+		let sessionInstance = AVAudioSession.sharedInstance()
+		NotificationCenter.default.addObserver(self, selector: #selector(SwiftConrealityHeadsetPlugin.audioRouteChangeListener(_:)), name: AVAudioSession.routeChangeNotification, object: sessionInstance)
 	}
-  }
+	public static func register(with registrar: FlutterPluginRegistrar) {
+		channel = FlutterMethodChannel(name: "app.conreality.plugins.headset", binaryMessenger: registrar.messenger())
+		eventChannel = FlutterEventChannel(name: "app.conreality.plugins.headset/status", binaryMessenger: registrar.messenger())
+		let instance = SwiftConrealityHeadsetPlugin()
+		registrar.addMethodCallDelegate(instance, channel: channel!)
+		eventChannel?.setStreamHandler(HeadsetStreamHandler())
+		
+	}
 	
-	@objc dynamic private  func audioRouteChangeListener(_ notification:Notification) {
+	public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+		print("method called: \(call.method)")
+		switch call.method {
+			case "isConnected":
+				result(headphonesConnected)
+			default:
+				result(nil)
+		}
+	}
+	
+	@objc func audioRouteChangeListener(_ notification:Notification) {
 		print("called")
 		guard let userInfo = notification.userInfo,
 			  let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
