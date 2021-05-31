@@ -32,6 +32,31 @@ public class SwiftConrealityHeadsetPlugin: NSObject, FlutterPlugin {
 		print("method called: \(call.method)")
 		switch call.method {
 			case "isConnected":
+				let session = AVAudioSession.sharedInstance()
+				for output in session.currentRoute.outputs where output.portType == AVAudioSession.Port.headphones {
+					headphonesConnected = true
+					wiredHeadphonesConnected = true
+					print("headphone plugged in")
+					
+				}
+				for output in session.currentRoute.outputs where output.portType == AVAudioSession.Port.bluetoothA2DP {
+					headphonesConnected = true
+					bluetoothHeadphonesConnected = true
+					print("bluetooth headphone plugged in")
+					
+				}
+				for output in session.currentRoute.outputs where output.portType == AVAudioSession.Port.builtInMic {
+					hasMicroPhone = true
+					hasInbuiltMicroPhone = true
+					print("bluetooth headphone plugged in")
+					
+				}
+				for output in session.currentRoute.outputs where output.portType == AVAudioSession.Port.headsetMic {
+					hasMicroPhone = true
+					hasHeadsetMicroPhone = true
+					print("bluetooth headphone plugged in")
+					
+				}
 				result(headphonesConnected)
 			default:
 				result(nil)
