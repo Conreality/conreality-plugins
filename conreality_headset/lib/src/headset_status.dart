@@ -7,7 +7,7 @@ import 'headset_type.dart' show HeadsetType;
 
 /// Represents the headset device status.
 class HeadsetStatus extends HeadsetEvent {
-  HeadsetStatus({@required this.isConnected, this.type = HeadsetType.unknown});
+  HeadsetStatus({required this.isConnected, this.type = HeadsetType.unknown});
 
   /// Whether the headset is wireless or wired.
   final HeadsetType type;
