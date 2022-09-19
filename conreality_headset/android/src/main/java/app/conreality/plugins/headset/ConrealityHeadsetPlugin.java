@@ -118,7 +118,8 @@ public final class ConrealityHeadsetPlugin extends BroadcastReceiver implements 
     assert(service != null);
 
     Log.d(TAG, String.format("onServiceConnected: name=%s service=%s", name, service));
-    this.service = ((HeadsetService.LocalBinder)service).getService();
+    HeadsetService.LocalBinder binder = (HeadsetService.LocalBinder) service;
+    this.service = (HeadsetService) binder.getService();
     this.service.onConnection(this.registrar.context());
   }
 

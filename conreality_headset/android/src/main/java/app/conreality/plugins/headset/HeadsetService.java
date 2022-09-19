@@ -88,7 +88,7 @@ public final class HeadsetService extends Service implements TextToSpeech.OnInit
   /** Implements TextToSpeech.OnInitListener#onInit(). */
   @Override
   public void onInit(final int status) {
-    if (status == TextToSpeech.SUCCESS) {
+    if (status == TextToSpeech.SUCCESS && this.ttsQueue != null) {
       if (Log.isLoggable(TAG, Log.DEBUG)) {
         Log.d(TAG, "Initialized the speech synthesis engine.");
       }
