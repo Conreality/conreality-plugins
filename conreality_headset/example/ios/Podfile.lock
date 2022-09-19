@@ -1,0 +1,22 @@
+PODS:
+  - conreality_headset (0.2.0):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - conreality_headset (from `.symlinks/plugins/conreality_headset/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  conreality_headset:
+    :path: ".symlinks/plugins/conreality_headset/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  conreality_headset: 6fdb46a68192033c6ee2351dd13762dd618846a4
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.1

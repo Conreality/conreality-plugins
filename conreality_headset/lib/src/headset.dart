@@ -1,12 +1,9 @@
 /* This is free and unencumbered software released into the public domain. */
 
 import 'dart:async' show Future, Stream;
+import 'dart:convert';
 
 import 'package:flutter/services.dart' show EventChannel, MethodChannel;
-
-import 'headset_event.dart' show HeadsetEvent;
-import 'headset_status.dart' show HeadsetStatus;
-import 'headset_type.dart' show HeadsetType;
 
 const MethodChannel _methodChannel =
     MethodChannel('app.conreality.plugins.headset');
@@ -26,11 +23,6 @@ abstract class Headset {
   static Future<bool> get canSpeak async =>
       await _methodChannel.invokeMethod('canSpeak');
 
-  /// Plays a PCM file to the headset.
-  static Future<bool> playFile(final String filePath) {
-    return _methodChannel.invokeMethod('playFile', filePath);
-  }
-
   /// Synthesizes speech from the contents of [message] for immediate playback.
   static Future<bool> speak(final String message) {
     return _methodChannel.invokeMethod('speak', message);
@@ -42,9 +34,51 @@ abstract class Headset {
   }
 
   /// Subscribes to headset device events.
-  static Future<Stream<HeadsetEvent>> subscribe() async {
-    return _eventChannel.receiveBroadcastStream().map((dynamic isConnected) =>
-        HeadsetStatus(
-            type: HeadsetType.unknown, isConnected: isConnected as bool));
+  static Future<Stream<HeadphoneStatus>> subscribe() async {
+    return _eventChannel.receiveBroadcastStream().map(
+      (dynamic json) {
+        return HeadphoneStatus.fromJson(jsonDecode(json));
+      },
+    );
+  }
+}
+
+class HeadphoneStatus {
+  bool isConnected;
+  bool hasWiredHeadset;
+  bool hasWirelessHeadset;
+  bool hasMicrophone;
+  bool hasInbuiltMicroPhone;
+  bool hasHeadsetMicroPhone;
+
+  HeadphoneStatus({
+    this.isConnected,
+    this.hasWiredHeadset,
+    this.hasWirelessHeadset,
+    this.hasMicrophone,
+    this.hasInbuiltMicroPhone,
+    this.hasHeadsetMicroPhone,
+  });
+
+  static fromJson(Map<String, dynamic> json) {
+    return HeadphoneStatus(
+      isConnected: json["isConnected"],
+      hasWiredHeadset: json["hasWiredHeadset"],
+      hasWirelessHeadset: json["hasWirelessHeadset"],
+      hasMicrophone: json["hasMicrophone"],
+      hasInbuiltMicroPhone: json["hasInbuiltMicroPhone"],
+      hasHeadsetMicroPhone: json["hasHeadsetMicroPhone"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "isConnected": isConnected,
+      "hasWiredHeadset": hasWiredHeadset,
+      "hasWirelessHeadset": hasWirelessHeadset,
+      "hasMicrophone": hasMicrophone,
+      "hasInbuiltMicroPhone": hasInbuiltMicroPhone,
+      "hasHeadsetMicroPhone": hasHeadsetMicroPhone,
+    };
   }
 }
